@@ -3,10 +3,13 @@ const app = express();
 const mongoose = require('mongoose');
 require('dotenv').config();
 const connectDB = require('./DB/connect');
+const router  = require('./routes/route');
 
 
 
+app.use(express.json());
 
+app.use(require('./routes/route'));
 
 // Middleware
 
@@ -15,22 +18,6 @@ const middlware = (req, res, next) => {
 	next();
 }
 
-
-app.get('/', (req, res) => {
-	res.status(200).send('Home Page');
-});
-app.get('/about', middlware, (req, res) => {
-	res.status(200).send('About Page');
-});
-app.get('/contact', (req, res) => {
-	res.status(200).send('Contact Page');
-});
-app.get('/signin', (req, res) => {
-	res.status(200).send('Signin Page');
-});
-app.get('/signup', (req, res) => {
-	res.status(200).send('signup Page');
-});
 
 const start = async () => {
 	try {
@@ -44,3 +31,5 @@ const start = async () => {
 }
 
 start();
+
+module.exports = middlware;

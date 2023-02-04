@@ -1,21 +1,28 @@
 const express = require('express');
-const app = express(); 
+const app = express();
+const mongoose = require('mongoose');
 
+const DB = 'mongodb+srv://PrinceKumar:KhannaKriti@cluster2.rugv53e.mongodb.net/USER_DATABASE?retryWrites=true&w=majority';
 
+mongoose.set('strictQuery', true);
+mongoose.connect(DB)
+	.then((res) => {
+	console.log('connected to DB');
+	})
+	.catch((err) => console.log(err));
 
 // Middleware
 
-const middlware = (req,res,next) => {
+const middlware = (req, res, next) => {
 	console.log(`----- Hello middlware -----`);
 	next();
 }
 
 
-
 app.get('/', (req, res) => {
 	res.status(200).send('Home Page');
 });
-app.get('/about',middlware, (req, res) => {
+app.get('/about', middlware, (req, res) => {
 	res.status(200).send('About Page');
 });
 app.get('/contact', (req, res) => {

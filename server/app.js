@@ -1,15 +1,12 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+require('dotenv').config();
+const connectDB = require('./DB/connect');
 
-const DB = 'mongodb+srv://PrinceKumar:KhannaKriti@cluster2.rugv53e.mongodb.net/USER_DATABASE?retryWrites=true&w=majority';
 
-mongoose.set('strictQuery', true);
-mongoose.connect(DB)
-	.then((res) => {
-	console.log('connected to DB');
-	})
-	.catch((err) => console.log(err));
+
+
 
 // Middleware
 
@@ -35,6 +32,15 @@ app.get('/signup', (req, res) => {
 	res.status(200).send('signup Page');
 });
 
-app.listen(5000, () => {
-	console.log(`----- Server running on PORT : 5000 -----`);
-})
+const start = async () => {
+	try {
+		await connectDB(process.env.MONGO_URI);
+		app.listen(process.env.PORT, () => {
+			console.log(`----- Server running on PORT : ${process.env.PORT} -----`);
+		})
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+start();

@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const middleware = require('../app');
-const { registerUser } = require('../controllers/controllers');
+const { registerUser,loginUser,getHome } = require('../controllers/controllers');
 
-router.route('/').get((req, res) => {
-	res.status(200).send('Success');
-});
+router.route('/').get(getHome);
 
 router.route('/register').post(registerUser);
+router.route('/login').post(loginUser);
 
 
 
